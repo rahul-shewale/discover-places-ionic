@@ -1,0 +1,7 @@
+{
+  "name": "discover",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
