@@ -40,8 +40,6 @@ export class OfferBookingsPage implements OnInit {
       }
 
       this.place = new_place;
-      console.log(this.place);
-      
     });
   }
 }

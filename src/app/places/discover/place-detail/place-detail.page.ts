@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Place } from '../../place.modal';
+import { PlacesService } from '../../places.service';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -10,9 +12,35 @@ import { NavController } from '@ionic/angular';
 })
 export class PlaceDetailPage implements OnInit {
 
-  constructor(private router: Router, private navCtrl : NavController) { }
+    place! : Place;
+    constructor(
+      private placesService: PlacesService,
+      private route: ActivatedRoute,
+      private navCtrl: NavController
+    ) { }
+  
 
   ngOnInit() {
+    this.route.paramMap.subscribe(paraMap => {
+      if (!paraMap.has('placeId')) {
+        this.navCtrl.navigateBack('/places/tabs/discover');
+        return;
+      }
+
+      const placeId = paraMap.get('placeId');
+      if (!placeId) {
+        this.navCtrl.navigateBack('/places/tabs/discover');
+        return;
+      }
+
+      const new_place = this.placesService.getPlace(placeId);
+      if (!new_place) {
+        this.navCtrl.navigateBack('/places/tabs/discover');
+        return;
+      }
+
+      this.place = new_place;    
+    });
   }
 
   onBookPlace() {
